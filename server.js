@@ -7,17 +7,19 @@ const server = http.createServer((request, response) => {
   let body = [];
 
   request.on('error', (err) => {
+    response.statusCode = 500;
+    response.setHeader('Content-Type', 'text/plain');
+    response.end(err.stack);
     console.error(err.stack);
   }).on('data', (chunk) => {
     body.push(chunk);
   }).on('end', () => {
     body = Buffer.concat(body).toString();
     content = JSON.stringify(JSON.parse(body).case.content);
+    response.statusCode = 200;
+    response.setHeader('Content-Type', 'text/plain');
+    response.end(content);
   });
-
-  response.statusCode = 200;
-  response.setHeader('Content-Type', 'text/plain');
-  response.end(content);
 })
 
 server.listen(port, hostname, () => {
