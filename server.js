@@ -17,7 +17,7 @@ const server = http.createServer((request, response) => {
 
   response.statusCode = 200;
   response.setHeader('Content-Type', 'text/plain');
-  response.end('returned data!');
+  response.end(content);
 })
 
 server.listen(port, hostname, () => {
