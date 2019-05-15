@@ -18,6 +18,7 @@ const server = http.createServer((request, response) => {
     content = JSON.stringify(JSON.parse(body).case.content);
     response.statusCode = 200;
     response.setHeader('Content-Type', 'text/plain');
+    // returns case content back to rails
     response.end(content);
   });
 })
