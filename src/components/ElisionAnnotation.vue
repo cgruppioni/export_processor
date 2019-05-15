@@ -10,19 +10,7 @@
   <span v-if="isTail && uiState.expanded"
         data-exclude-from-offset-calcs="true"
         class="sr-only">(end of elided text)</span>
-  <AnnotationHandle v-if="hasHandle"
                     :ui-state="uiState">
-    <li>
-      <a @click="toggleExpansion(uiState)">
-        <template v-if="uiState.expanded">Hide</template>
-        <template v-else>Reveal</template>
-        original text
-      </a>
-    </li>
-    <li>
-      <a @click="destroy(annotation)">Remove elision</a>
-    </li>
-  </AnnotationHandle>
 </span>
 </template>
 

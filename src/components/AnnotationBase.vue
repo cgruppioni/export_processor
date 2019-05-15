@@ -2,13 +2,9 @@
 </template>
 
 <script>
-import AnnotationHandle from './AnnotationHandle';
 import { createNamespacedHelpers } from 'vuex';
 
 export default {
-  components: {
-    AnnotationHandle
-  },
   props: {
     annotation: {type: Object,
                  required: true},

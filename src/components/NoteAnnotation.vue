@@ -4,12 +4,6 @@
      :href="`#${annotation.id}-content`"
      :id="isHead ? `${annotation.id}-head` : ''"
      @click.prevent="handleClick"><slot></slot></a>
-  <AnnotationHandle v-if="hasHandle"
-                    :ui-state="uiState">
-    <li>
-      <a @click="destroy(annotation)">Remove note</a>
-    </li>
-  </AnnotationHandle>
   <template v-if="isHeadAndNotNew">
     <span class="note-content-wrapper"
           data-exclude-from-offset-calcs="true">

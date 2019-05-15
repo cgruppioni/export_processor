@@ -2,14 +2,6 @@
 <span class="link">
   <a :href="annotation.content" target="_blank" class="selected-text"><slot></slot></a>
   <template v-if="hasHandle">
-    <AnnotationHandle :ui-state="uiState">
-      <li>
-        <a @click.prevent="$refs.editMenu.open">Edit link</a>
-      </li>
-      <li>
-        <a @click="destroy(annotation)">Remove link</a>
-      </li>
-    </AnnotationHandle>
     <ContextMenu ref="editMenu"
                  data-exclude-from-offset-calcs="true"
                  :closeOnClick="false"

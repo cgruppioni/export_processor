@@ -21,19 +21,6 @@
   <span v-if="isTail && uiState.expanded"
         data-exclude-from-offset-calcs="true"
         class="sr-only">(end of replaced text)</span>
-  <AnnotationHandle v-if="hasHandle"
-                    :ui-state="uiState">
-    <li>
-      <a @click="toggleExpansion(uiState)">
-        <template v-if="uiState.expanded">Hide</template>
-        <template v-else>Reveal</template>
-        original text
-      </a>
-    </li>
-    <li>
-      <a @click="destroy(annotation)">Remove replacement</a>
-    </li>
-  </AnnotationHandle>
   <SideMenu v-if="isHead && isModified">
     <!-- Use mousedown to prevent replacementText from blurring too soon -->
     <li><a @mousedown.prevent="submit">Save</a></li>
