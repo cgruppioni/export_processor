@@ -1,9 +1,6 @@
 <template>
 <section class="resource"
          v-selectionchange="selectionchangeHandler">
-  <TheAnnotator v-if="editable"
-                ref="annotator"/>
-  <TheGlobalElisionExpansionButton v-if="collapsible.length"/>
   <div class="case-text">
     <template v-for="(el, index) in sections">
       <ResourceSection :el="el"
@@ -24,14 +21,10 @@ const { mapActions } = createNamespacedHelpers("annotations");
 const { mapGetters } = createNamespacedHelpers("annotations_ui");
 
 import ResourceSection from "./ResourceSection";
-import TheAnnotator from "./TheAnnotator";
-import TheGlobalElisionExpansionButton from "./TheGlobalElisionExpansionButton";
 
 export default {
   components: {
-    ResourceSection,
-    TheAnnotator,
-    TheGlobalElisionExpansionButton
+    ResourceSection
   },
   props: {
     resource: {type: Object},
@@ -68,22 +61,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["list"]),
-
-    // The selectionchange directive must be bound to the broader
-    // <section.resource> (rather than TheAnnotator) so that it has
-    // context about which text with which to be concerned.
-    // The TheAnnotator handler is then proxied through rather than
-    // set directly on the directive because $refs doesn't exist at
-    // the point it's added
-    selectionchangeHandler(e, sel) {
-      this.$refs.annotator && this.$refs.annotator.selectionchange(e, sel);
+    ...mapActions(["list"])
     }
   },
-  created() {
-    this.$store.commit("resources_ui/setEditability", this.editable);
-    if(this.resourceId) this.list({resource_id: this.resourceId});
-  }
 }
 </script>
 

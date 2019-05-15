@@ -4,7 +4,6 @@
 <script>
 import AnnotationHandle from './AnnotationHandle';
 import { createNamespacedHelpers } from 'vuex';
-const { mapActions } = createNamespacedHelpers('annotations');
 
 export default {
   components: {
@@ -28,52 +27,7 @@ export default {
   },
   data: () => ({
     expandedDefault: true
-  }),
-  computed: {
-    uiState() {
-      return this.$store.getters['annotations_ui/getById'](this.annotation.id);
-    },
-    isNew() {
-      return Math.sign(this.annotation.id) == -1;
-    },
-    isHead() {
-      return this.index == this.annotation.start_paragraph &&
-             this.startOffset == this.annotation.start_offset;
-    },
-    isTail() {
-      return this.endOffset == this.annotation.end_offset;
-    },
-    isEditable() {
-      return this.$store.getters["resources_ui/getEditability"];
-    },
-    hasHandle() {
-      return this.isEditable && this.isHead && !this.isNew;
-    },
-    isHeadAndNotNew() {
-      return this.isHead && ! this.isNew;
-    },
-    isHeadAndNew() {
-      return this.isHead && this.isNew;
-    }
-  },
-  methods: {
-    ...mapActions(['destroy', 'createAndUpdate'])
-  },
-  created() {
-    if(this.isHead && this.isNew && ['highlight', 'elide'].includes(this.annotation.kind)){
-      this.createAndUpdate(
-        {obj: this.annotation, vals: {}}
-      );
-    }
-
-    if(!this.uiState) {
-      this.$store.commit('annotations_ui/append', [
-        {id: this.annotation.id,
-         expanded: this.expandedDefault,
-         headY: null}
-      ]);
-    }
-  }
+  })
 }
 </script>
 
