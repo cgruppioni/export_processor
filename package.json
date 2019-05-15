@@ -10,7 +10,8 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "nodemon": "^1.19.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-server-renderer": "^2.6.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
