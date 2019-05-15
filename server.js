@@ -1,30 +1,41 @@
-const http = require('http');
-const hostname = '127.0.0.1';
-const port = 3000;
+// Use express https://ssr.vuejs.org/guide/#integrating-with-a-server
+const Vue = require('vue')
+const server = require('express')()
+const renderer = require('vue-server-renderer').createRenderer()
 
-const server = http.createServer((request, response) => {
-  const { method, url, headers } = request;
-  let body = [];
+// const renderer = createRenderer({
+//   template: require('fs').readFileSync('./index.template.html', 'utf-8')
+// })
 
-  request.on('error', (err) => {
-    response.statusCode = 500;
-    response.setHeader('Content-Type', 'text/plain');
-    response.end(err.stack);
-    console.error(err.stack);
-  }).on('data', (chunk) => {
-    body.push(chunk);
-  }).on('end', () => {
-    body = Buffer.concat(body).toString();
-    content = JSON.stringify(JSON.parse(body).case.content);
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'text/plain');
-    // returns case content back to rails
-    response.end(content);
-  });
+// renderer.renderToString(app, (err, html) => {
+//   console.log(html) // will be the full page with app content injected.
+// })
+
+
+server.post('*', (req, res) => {
+  const app = new Vue({
+    data: {
+      url: req.url
+    },
+    template: `<div>The visited URL is: {{ url }}</div>`
+  })
+
+  renderer.renderToString(app, (err, html) => {
+    console.log("HERE");
+    if (err) {
+      console.log("ERROR");
+      res.status(500).end('Internal Server Error')
+      return
+    }
+    console.log("ALSO HERE");
+    res.end(`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head><title>Hello</title></head>
+        <body>${html}</body>
+      </html>
+    `)
+  })
 })
 
-server.listen(port, hostname, () => {
-  console.log('here');
-  // call vue here? how to pull logic?
-  console.log(`Server running at http://${hostname}:${port}/`);
-})
+server.listen(3000)
