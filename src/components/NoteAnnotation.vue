@@ -19,27 +19,6 @@
       </span>
     </span>
   </template>
-  <template v-if="isHeadAndNew">
-    <div class="new-note-content-wrapper">
-      <form @submit.prevent="submit('note', content)"
-            ref="noteForm"
-            class="form note-content"
-            :id= "`${annotation.id}`"
-            @focusout="focusOut">
-        <textarea ref="noteInput"
-                  id="note-textarea"
-                  required="true"
-                  placeholder="Note text..."
-                  @keydown.enter.prevent="$refs.noteSubmitButton.click"
-                  v-model="content"></textarea>
-        <input ref="noteSubmitButton"
-               type="submit"
-               value="Save"
-               id="save-note"
-               class="button">
-      </form>
-    </div>
-  </template>
 </span>
 </template>
 
@@ -52,30 +31,7 @@ const { mapActions } = createNamespacedHelpers("annotations");
 export default {
   extends: AnnotationBase,
   props: ["tempId"],
-  data: () => ({
-    content: "",
-  }),
-  methods: {
-    ...mapActions(['createAndUpdate']),
 
-    handleClick(e) {
-      document.getElementById(e.currentTarget.getAttribute("href").slice(1)).focus({preventScroll: true});
-    },
-    submit(kind, content = null){
-      let id = this.$refs.noteForm.id;
-      let annotation = this.$store.getters['annotations/getById'](parseInt(id));
-
-      this.createAndUpdate(
-        {obj: annotation, vals: {content: content}}
-      );
-    },
-    focusOut(e){
-      if (Math.sign(this.annotation.id) === -1 && e.relatedTarget == null || e.relatedTarget !== null && ["save-note", "note-textarea"].includes(e.relatedTarget.id) == false){     
-        this.$store.commit('annotations/destroy', this.annotation);
-        this.$store.commit('annotations_ui/destroy', this.uiState);
-      }
-    }
-  },
   mounted() {
     this.$nextTick(function () {
       if (Math.sign(this.annotation.id) == -1){

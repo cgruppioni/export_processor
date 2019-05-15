@@ -1,13 +1,9 @@
 <template>
 <span class="elision">
-  <AnnotationExpansionToggle v-if="isHead"
-                             :annotation="annotation"
-                             aria-label="elided text"/>
   <!-- Use v-show rather than v-if here so that
        the text is included in offset calculations -->
-  <span v-show="uiState.expanded"
-        class="selected-text"><slot></slot></span>
-  <span v-if="isTail && uiState.expanded"
+  <span class="selected-text"><slot></slot></span>
+  <span v-if="isTail"
         data-exclude-from-offset-calcs="true"
         class="sr-only">(end of elided text)</span>
                     :ui-state="uiState">
@@ -16,21 +12,10 @@
 
 <script>
 import AnnotationBase from './AnnotationBase';
-import AnnotationExpansionToggle from './AnnotationExpansionToggle';
 import { createNamespacedHelpers } from 'vuex';
-const { mapActions } = createNamespacedHelpers('annotations_ui');
 
 export default {
   extends: AnnotationBase,
-  components: {
-    AnnotationExpansionToggle
-  },
-  data: () => ({
-    expandedDefault: false
-  }),
-  methods: {
-    ...mapActions(['toggleExpansion'])
-  }
 }
 </script>
 

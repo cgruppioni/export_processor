@@ -1,3 +1,5 @@
+<!-- Not sure if this is used -->
+
 <template>
   <a @click.prevent="handleClick"><slot></slot></a>
 </template>
@@ -30,13 +32,6 @@ export default {
       this.$nextTick(() => VueScrollTo.scrollTo(document.querySelector(`[id="${this.siblingId}"], [name="${this.siblingId}"]`)));
     }
   },
-  created() {
-    this.$store.commit(
-      'footnotes_ui/register',
-      {id: this.id,
-       annotationIds: this.enclosingAnnotationIds}
-    );
-  }
 }
 // I need to have the footnotes register their state, by ID, in vuex
 // so that dependent links can expand their partner's annotations

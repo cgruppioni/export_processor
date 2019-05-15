@@ -18,7 +18,6 @@ import { unwrapUndesiredTags,
 
 import { createNamespacedHelpers } from "vuex";
 const { mapActions } = createNamespacedHelpers("annotations");
-const { mapGetters } = createNamespacedHelpers("annotations_ui");
 
 import ResourceSection from "./ResourceSection";
 
@@ -34,8 +33,6 @@ export default {
     ranges: null
   }),
   computed: {
-    ...mapGetters(["collapsible"]),
-
     sections() {
       const parser = new DOMParser();
       let doc = parser.parseFromString(this.resource.content, "text/html");

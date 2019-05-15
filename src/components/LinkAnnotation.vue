@@ -1,95 +1,15 @@
 <template>
 <span class="link">
   <a :href="annotation.content" target="_blank" class="selected-text"><slot></slot></a>
-  <template v-if="hasHandle">
-    <ContextMenu ref="editMenu"
-                 data-exclude-from-offset-calcs="true"
-                 :closeOnClick="false"
-                 class="edit-menu">
-      <form @submit.prevent="submitUpdate">
-        <LinkInput v-model="content"/>
-      </form>
-    </ContextMenu>
-  </template>
-  <template v-if="isNew && isHead">
-    <div class="link-content-wrapper"
-    tabindex="-1">
-      <form @submit.prevent="submit('link', content)"
-            class="form link-form"
-            :id= "`${annotation.id}`"
-            ref="linkForm"
-            tabindex="0"
-            @focusout="focusOut"
-            >
-          <input id="link-input"
-                type="url"
-                required="true"
-                pattern="\w+://\w+.*"
-                placeholder="Url to link to..."
-                ref="linkInput"
-                v-model="content"
-                tabindex="0"/>
-      </form>
-    </div>
-  </template>
 </span>
 </template>
 
 <script>
 import AnnotationBase from "./AnnotationBase";
-import { createNamespacedHelpers } from "vuex";
-const { mapActions } = createNamespacedHelpers("annotations");
-
-import ContextMenu from "./ContextMenu";
-import LinkInput from "./LinkInput";
 
 export default {
   extends: AnnotationBase,
-  components: {
-    ContextMenu,
-    LinkInput
-  },
   props: ["value"],
-  data: () => ({
-    newVals: {content: null},
-  }),
-  computed: {
-    content: {
-      get() {
-        return this.newVals.content === null
-          ? this.annotation.content
-          : this.newVals.content;
-      },
-      set(value) {
-        this.newVals.content = value;
-      }
-    }
-  },
-  methods: {
-    ...mapActions(["update", "createAndUpdate"]),
-    submitUpdate() {
-      this.update({obj: this.annotation, vals: this.newVals});
-      this.$refs.editMenu.close();
-    },
-    submit(kind, content = null){
-      this.createAndUpdate(
-        {obj: this.annotation, vals: this.newVals}
-      );
-    },
-    focusOut(e){
-      if(Math.sign(this.annotation.id) === -1){
-        this.$store.commit('annotations/destroy', this.annotation);
-        this.$store.commit('annotations_ui/destroy', this.uiState);
-      }
-    }
-  },
-  mounted() {
-    this.$nextTick(function () {
-      if (Math.sign(this.annotation.id) == -1){
-        this.$refs.linkInput.focus();
-      }
-    })
-  },
 }
 </script>
 
