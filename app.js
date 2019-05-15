@@ -1,10 +1,25 @@
-const Vue = require('vue')
+// Basic rendering of a vue instance
+// https://ssr.vuejs.org/guide/#rendering-a-vue-instance
 
-module.exports = function createApp (context) {
-  return new Vue({
-    data: {
-      url: context.url
-    },
-    template: `<div>The visited URL is: {{ url }}</div>`
-  })
-}
+// Step 1: Create a Vue instance
+const Vue = require('vue')
+const app = new Vue({
+  template: `<div>Hello World</div>`
+})
+
+// Step 2: Create a renderer
+const renderer = require('vue-server-renderer').createRenderer()
+
+// Step 3: Render the Vue instance to HTML
+renderer.renderToString(app, (err, html) => {
+  if (err) throw err
+  console.log(html);
+  // => <div data-server-rendered="true">Hello World</div>
+})
+
+// in 2.5.0+, returns a Promise if no callback is passed:
+renderer.renderToString(app).then(html => {
+  console.log(html);
+}).catch(err => {
+  console.error(err);
+})
