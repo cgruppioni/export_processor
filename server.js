@@ -15,7 +15,16 @@ server.post('*', (req, res) => {
     template: `<div>The visited URL is: {{ url }}</div>`
   })
 
-  renderer.renderToString(app, (err, html) => {
+  // The context object can also be shared with the Vue app instance, allowing components to dynamically register data for template interpolation. https://ssr.vuejs.org/guide/#using-a-page-template
+  const context = {
+    title: 'hello',
+    meta: `
+      <meta ...>
+      <meta ...>
+    `
+  }
+
+  renderer.renderToString(app, context, (err, html) => {
     console.log(html) // will be the full page with app content injected.
 
     if (err) {
