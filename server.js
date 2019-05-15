@@ -1,15 +1,10 @@
 // Use express https://ssr.vuejs.org/guide/#integrating-with-a-server
+// Using page template https://ssr.vuejs.org/guide/#using-a-page-template
 const Vue = require('vue')
 const server = require('express')()
-const renderer = require('vue-server-renderer').createRenderer()
-
-// const renderer = createRenderer({
-//   template: require('fs').readFileSync('./index.template.html', 'utf-8')
-// })
-
-// renderer.renderToString(app, (err, html) => {
-//   console.log(html) // will be the full page with app content injected.
-// })
+const renderer = require('vue-server-renderer').createRenderer({
+  template: require('fs').readFileSync('index.template.html', 'utf-8')
+})
 
 
 server.post('*', (req, res) => {
@@ -21,20 +16,14 @@ server.post('*', (req, res) => {
   })
 
   renderer.renderToString(app, (err, html) => {
-    console.log("HERE");
+    console.log(html) // will be the full page with app content injected.
+
     if (err) {
-      console.log("ERROR");
       res.status(500).end('Internal Server Error')
       return
     }
-    console.log("ALSO HERE");
-    res.end(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <head><title>Hello</title></head>
-        <body>${html}</body>
-      </html>
-    `)
+
+    res.end(html);
   })
 })
 
