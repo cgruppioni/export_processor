@@ -5,9 +5,10 @@ const Vue = require('vue')
 module.exports = function createApp (context) {
   return new Vue({
     data: {
-      url: context.url
+      url: context.url,
+      title: context.title,
+      meta: context.meta
     },
-    template: require('fs').readFileSync('index.template.html', 'utf-8')
-    // template: `<div>The visited URL is: {{ url }}</div>`
+    template: `<div>The visited URL is: {{ url }}</div>`
   })
 }

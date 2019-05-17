@@ -1,16 +1,21 @@
 // Use express https://ssr.vuejs.org/guide/#integrating-with-a-server
 // Using page template https://ssr.vuejs.org/guide/#using-a-page-template
-// const Vue = require('vue')
 const server = require('express')()
 const createApp = require('./app')
 const renderer = require('vue-server-renderer').createRenderer({
-  template: require('fs').readFileSync('./index.template.html', 'utf-8')
+  template: require('fs').readFileSync('index.template.html', 'utf-8')
 })
-// const renderer = require('vue-server-renderer').createRenderer()
 
 
 server.post('*', (req, res) => {
-  const context = { url: "neopets.com" }
+  const context = {
+    url: "neopoets.com",
+    title: 'hello',
+    meta: `
+      <meta ...>
+      <meta ...>
+    `
+  }
   const app = createApp(context)
 
   renderer.renderToString(app, context, (err, html) => {
