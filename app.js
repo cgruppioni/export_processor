@@ -3,6 +3,9 @@
 const Vue = require('vue')
 
 module.exports = function createApp (context) {
+  // Maybe need to do this here to render h => h(app)
+  // https://ssr.vuejs.org/guide/structure.html#code-structure-with-webpack
+
   return new Vue({
     data: {
       url: context.url,
